@@ -282,7 +282,18 @@ flatpak install flathub <package-name>
 flatpak run <package-name>
 ```
 
-Note: the application won't appear in your list of programs TODO: show how to add it
+### Add Apps to Applications List
+Some applications won't show up in your applications list after installing them, such as Flatpaks or AppImages. They can be added by creating .desktop files with the Application's metadata and placing them in `~/.local/share/applications`.
+
+```
+[Desktop Entry]
+Type=Application
+Name=Obsidian
+Icon=/home/jacob/appimages/icons/obsidian.svg
+Exec=/home/jacob/appimages/Obsidian-1.6.7.AppImage
+Categories=Office;Notes;
+Terminal=false
+```
 
 ## Basic Customization & Shortcuts (Cinnamon)
 ### Emoji Keyboard
