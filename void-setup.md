@@ -122,59 +122,24 @@ xbps-query -L
 
 ## Useful packages
 
-Terminal
-- tilix
-
-OS Backups
-- timeshift
-
-Task Manager
-- mate-system-monitor
-- glance
-- htop
-
-Text Editors
-- gedit # notepad-like
-- abiword # wordpad-like (buggy)
-
-Multimedia Player
-- vlc
-
-Audio Player
-- {TBD}
-
-Image Editor
-- GIMP
-
-Image Viewer
-- gwenview
-
-Screenshots
-- flameshot
-
-Dev (everyone)
-- git
-- python3-pip
-- python3-pipx
-
-Emoji Keyboard
-- rofi-emoji
-
-Clipboard Manager
-- clipit
-
-Dev (elopers)
-- vscode (restricted package)
-- gcc
-- gdb
-- make
-- binutils
-- valgrind
-
-Keyboard Shortcuts (as needed)
-- dconf-editor
-
-// https://www.reddit.com/r/voidlinux/comments/1dgi4ot/cant_install_livecd_doesnt_boot/?share_id=UPUHdBLZYQghynqLn61HO&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1
+| **Category**                     | **Package(s)**        |
+| -------------------------------- | --------------------- |
+| Terminal                         | tilix                 |
+| Backups                          | timeshift             |
+| Task Manager                     | mate-system-monitor<br>glance<br>htop |
+| Text Editors                     | gedit (notepad-like)<br>abiword (wordpad-like/buggy) |
+| Multimedia Player                | vlc                   |
+| Audio Player                     | TODO                  |
+| Image Viewer                     | gwenview              |
+| Image Editor                     | gimp                  |
+| Screenshots                      | flameshot             |
+| Dev General                      | git<br>python3-pip<br>python3-pipx |
+| Emoji Keyboard                   | rofi-emoji            |
+| Clipboard Manager                | clipit                |
+| Developers                       | gcc<br>gdb<br>make<br>binutils<br>valgrind |
+| App Internal Settings (GNOME)    | dconf-editor          |
+| Backups                          | timeshift             |
+| Backups                          | timeshift             |
 
 ## Emoji Support
 Noto fonts are probably the easiest to get set up.
