@@ -12,9 +12,7 @@ setfont /usr/share/kbd/consolefonts/lat5-16.psfu.gz # Not tiny, happy medium
 ```
 
 ## Connect to a network
-
 ### Wireless
-
 Find the name of your wifi device
 ```bash
 ip link
@@ -30,7 +28,6 @@ sudo wpa_supplicant -B -i wlp2s0 -c /etc/wpa_supplicant/wpa_supplicant.conf
 ```
 
 ### Wired
-
 Shouldn't need to start this service by default, but just in case:
 
 ```bash
@@ -38,7 +35,6 @@ dhcpcd
 ```
 
 ## Correct Drive Setup Examples
-
 My drive:
 ```
 /dev/nvme0n1
@@ -65,24 +61,20 @@ LUKS_UUID=$(blkid -s UUID -o value /dev/nvme0n1p2)
 ```
 
 ## Desktop Environment
-
 ### Install KDE Plasma
-
 ```bash
 sudo xbps-install kde5 kde5-baseapps xorg
 # the display manager ssdm comes with the kde5 package
 sudo ln -s /etc/sv/sddm /var/service/
 ```
 
-### Uninstall KDE Plasma
-
+### Uninstall KDE Plasma (Recommended!)
 ```bash
 sudo unlink /var/service/sddm
 sudo ln -s /etc/sv/lightdm /var/service
 ```
 
 ### Install Cinnamon
-
 ```bash
 sudo xbps-install -S cinnamon lightdm lightdm-gtk-greeter xorg
 sudo ln -s /etc/sv/lightdm /var/service/
@@ -96,7 +88,6 @@ greeter-session=lightdm-gtk-greeter
 ```
 
 ## Quick xbps Reference
-
 ```bash
 # Install package
 xbps-install -S package1 package2
@@ -186,14 +177,12 @@ Keyboard Shortcuts (as needed)
 // https://www.reddit.com/r/voidlinux/comments/1dgi4ot/cant_install_livecd_doesnt_boot/?share_id=UPUHdBLZYQghynqLn61HO&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1
 
 ## Emoji Support
-
 Noto fonts are probably the easiest to get set up.
 ```bash
 sudo xbps-install -S noto-fonts-cjk noto-fonts-emoji noto-fonts-ttf noto-fonts-ttf-extra
 ```
 
 ## Pipewire setup
-
 TODO run through setup process / cleanup ; need config files from pulseaudio
 
 ```bash
@@ -210,18 +199,36 @@ sudo tee /etc/sv/pipewire/run <<EOF
 exec /usr/bin/pipewire
 EOF
 
-sudo tee /etc/wireplumber/run <<EOF
+sudo tee /etc/sv/wireplumber/run <<EOF
 #!/bin/sh
 exec usr/bin/wireplumber
 EOF
+
+sudo chmod +x /etc/sv/pipewire/run
+sudo chmod +x /etc/sv/wireplumber/run
+
+sudo ln -s /etc/sv/pipewire /var/service/
+sudo ln -s /etc/sv/wireplumber /var/service/
 ```
 
 pactl info
 PulseAudio on pipewire ...
 pavucontrol
 
-## Install Restricted Packages (e.g. discord)
+Fix after crashes:
+```bash
+sudo sv stop pipewire & sudo sv stop wireplumber
+sudo sv start pipewire ; sudo sv start wireplumber
+```
 
+## Keyring
+```bash
+xbps-install -S gnome-keyring
+```
+
+Keyring stores encrypted secrets/passwords/keys for you. Useful so you don't need to reauthenticate e.g. every time you git push from VSCode.
+
+## Install Restricted Packages (e.g. discord)
 ### Setup
 ```bash
 echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf # Allow building restricted pkgs
@@ -256,7 +263,6 @@ xbps-install discord
 ```
 
 #### Discord Fix
-
 Discord won't launch if there's an update available (even if it's not yet available through xbps!). To prevent this behavior:
 
 ```bash
@@ -266,7 +272,6 @@ vim ~/.config/Discord/settings.json
 ```
 
 ### Install Flatpaks
-
 Flatpaks are supposed to make things easier for developers; all dependencies are sandboxed and consistent across distributions; packages will take up less space the more you have installed. Sometimes limited by their sandbox.
 
 ```bash
@@ -279,21 +284,8 @@ flatpak run <package-name>
 
 Note: the application won't appear in your list of programs TODO: show how to add it
 
-## Basic Customization & Shortcuts
-
-### Fonts
-
-What I have set up in `cinnamon-settings`:
-- Default: Roboto Regular 10
-- Desktop: Roboto Regular 10
-- Document: Montserrat Regular 11
-- Monospace: Source Code Pro Regular 10
-- Window title: Roboto Bold 10
-
-Organize your fonts however you wish in `/usr/share/fonts`
-
+## Basic Customization & Shortcuts (Cinnamon)
 ### Emoji Keyboard
-
 ```bash
 sudo xbps-install -S rofi-emoji python3-pipx
 mkdir -p ~/.config/rofi
@@ -306,7 +298,6 @@ pipx install rofimoji ensurepath
 ```
 
 ### Startup Applications
-
 e.g. Discord
 ```bash
 mkdir -p ~/.config/autostart
@@ -322,11 +313,6 @@ Comment=Discord app
 EOF
 ```
 
-### Theme
-- Applications: Material-Palenight-BL-LB
-- Icons: Wings-Dark-Icons
-- Desktop: Material-Palenight-Bl-LB
-
 ### Keyboard Shortcuts in cinnamon-settings
 Change these:
 - Sound icon in tray -> Configure: Show Menu: (None)
@@ -341,8 +327,26 @@ Add these under Custom commands:
 - Super+.: `/home/<USER>/.local/bin/rofimoji`
     - `$USER` does not work, not sure why
 
-### Set Terminal shortcut to open your Terminal app
+### Right-click menu actions
+TODO: start menu - run as Root
+TODO: show how 7zip shortcut implemented
 
+### Theme
+- Applications: Material-Palenight-BL-LB
+- Icons: Wings-Dark-Icons
+- Desktop: Material-Palenight-Bl-LB
+
+### Fonts
+What I have set up in `cinnamon-settings`:
+- Default: Roboto Regular 10
+- Desktop: Roboto Regular 10
+- Document: Montserrat Regular 11
+- Monospace: Source Code Pro Regular 10
+- Window title: Roboto Bold 10
+
+Organize your fonts however you wish in `/usr/share/fonts`
+
+### (Cinnamon) Set Terminal shortcut to open your Terminal app
 ```bash
 dconf-editor /org/cinnamon/desktop/applications/terminal/
 ```
@@ -350,7 +354,6 @@ dconf-editor /org/cinnamon/desktop/applications/terminal/
 Change the command to match the one to run your terminal (e.g. tilix for Tilix)
 
 ### What to do if you typo your startup passphrase
-
 Power cycle your machine. This ain't bitlocker, pal.
 
 TODO: void mklive 
